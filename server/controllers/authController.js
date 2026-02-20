@@ -74,7 +74,7 @@ const loginUser = async (req, res) => {
             });
         }
 
-        const accessToken = jwt.sign(
+        const token = jwt.sign(
             {
                 user: {
                     first_name: user.first_name,
@@ -87,7 +87,7 @@ const loginUser = async (req, res) => {
             { expiresIn: "15m" }
         );
 
-        res.status(200).json({ accessToken });
+        res.status(200).json({ token });
 
     } catch (error) {
         res.status(500).json({
