@@ -13,6 +13,7 @@ const AppRoutes = () => {
       <Routes>
 
         {/* Landing */}
+        <Route path="/" element={<Landing />} />
         <Route path="/home" element={<Landing />} />
 
         {/* Public Routes */}

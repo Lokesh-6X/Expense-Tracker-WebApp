@@ -29,13 +29,17 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    // 🔥 safer error checking
-    if (error.response && error.response.status === 401) {
+
+    // Ignore login/register errors
+    if (
+      error.response &&
+      error.response.status === 401 &&
+      localStorage.getItem("token")
+    ) {
       console.warn("Unauthorized - logging out");
 
       localStorage.removeItem("token");
 
-      // avoid infinite redirect loop
       if (window.location.pathname !== "/login") {
         window.location.href = "/login";
       }

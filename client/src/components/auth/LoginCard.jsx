@@ -1,9 +1,15 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { loginUser } from "../features/auth/authService";
+import { loginUser } from "../../features/auth/authService";
+import LoadingSpinner from "../ui/LoadingSpinner";
 
-const LoginCard = () => {
 
+
+
+const LoginCard = ({ setAlert }) => {
+
+  const [loading, setLoading] = useState(false);
+  
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -22,12 +28,16 @@ const LoginCard = () => {
     e.preventDefault();
 
     try {
+      setLoading(true);
       const data = await loginUser(formData);
       localStorage.setItem("token", data.token);
       console.log("Login Sucessfull");
       navigate("/dashboard");
     } catch (error) {
       console.error("Login failed:", error.response?.data || error.message);
+      setAlert(error.response.data.message);
+    } finally {
+      setLoading(false);
     }
   };
   return (
@@ -75,9 +85,10 @@ const LoginCard = () => {
         {/* Button */}
         <button
           type="submit"
-          className="w-full rounded-lg bg-linear-to-r from-indigo-500 to-purple-600 text-white py-2.5 font-semibold hover:scale-[1.02] active:scale-[0.98] transition-transform duration-200 shadow-md hover:shadow-lg"
+          disabled={loading}
+          className="w-full rounded-lg bg-linear-to-r from-indigo-500 to-purple-600 text-white py-2.5 font-semibold flex justify-center items-center gap-2 transition-transform duration-200 hover:scale-[1.02] active:scale-[0.98] shadow-md hover:shadow-lg disabled:opacity-70 disabled:cursor-not-allowed"
         >
-          Login
+          {loading? <LoadingSpinner /> : "Login"}
         </button>
 
       </form>

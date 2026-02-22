@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { registerUser } from "../features/auth/authService";
+import { registerUser } from "../../features/auth/authService";
+import LoadingSpinner from "../ui/LoadingSpinner";
 
-const RegisterCard = () => {
+const RegisterCard = ({ setAlert }) => {
+
+    const [loading, setLoading] = useState(false);
 
     const [formData, setFormData] = useState({
     first_name: "",
@@ -22,12 +25,18 @@ const RegisterCard = () => {
     e.preventDefault();
 
     try {
+
+        setLoading(true);
+
         const data = await registerUser(formData);
         console.log("Register success:", data);
     } catch (error) {
         console.error(
         error.response?.data?.message || error.message
         );
+        setAlert(error.response.data.message);
+    } finally {
+        setLoading(false);
     }
     };
 
@@ -109,9 +118,10 @@ const RegisterCard = () => {
         {/* Button */}
         <button
             type="submit"
-            className="w-full rounded-lg bg-linear-to-r from-indigo-500 to-purple-600 text-white py-2.5 font-semibold hover:scale-[1.02] active:scale-[0.98] transition-transform duration-200 shadow-md hover:shadow-lg"
+            disable={loading}
+            className="w-full rounded-lg bg-linear-to-r from-indigo-500 to-purple-600 text-white py-2.5 font-semibold flex justify-center items-center gap-2 transition-transform duration-200 hover:scale-[1.02] active:scale-[0.98] shadow-md hover:shadow-lg disabled:opacity-70 disabled:cursor-not-allowed"
         >
-            Register
+            {loading? <LoadingSpinner /> : "Register"}
         </button>
 
         </form>
