@@ -1,19 +1,15 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { loginUser } from "../features/auth/authService";
-import api from '../api/axios'
 
 const LoginCard = () => {
+
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
-
-const getUser = async () => {
-  const res = await api.get("users/current");
-  console.log(res.data);
-};
 
   const handleChange = (e) => {
     setFormData({
@@ -29,7 +25,7 @@ const getUser = async () => {
       const data = await loginUser(formData);
       localStorage.setItem("token", data.token);
       console.log("Login Sucessfull");
-      getUser();
+      navigate("/dashboard");
     } catch (error) {
       console.error("Login failed:", error.response?.data || error.message);
     }
