@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { loginUser } from "../features/auth/authService";
 import api from '../api/axios'
 
@@ -84,7 +85,15 @@ const getUser = async () => {
         </button>
 
       </form>
-
+      <p className="text-sm text-gray-600 text-center mt-4">
+        Don't have an account?{" "}
+        <Link
+          to="/register"
+          className="text-indigo-600 font-medium hover:underline"
+        >
+          Register
+        </Link>
+      </p>
     </div>
   );
 };

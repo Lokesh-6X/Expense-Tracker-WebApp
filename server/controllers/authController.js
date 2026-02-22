@@ -11,6 +11,7 @@ const registerUser = async (req, res) => {
     try {
 
         const { first_name, last_name, email, password } = req.body;
+        console.log(first_name, last_name, email, password)
 
         // Updated validation
         if (!first_name || !last_name || !email || !password) {
