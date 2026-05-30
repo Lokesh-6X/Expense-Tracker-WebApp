@@ -13,7 +13,7 @@ const LoginCard = ({ setAlert }) => {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-    email: "",
+    identifier: "",
     password: "",
   });
 
@@ -57,9 +57,9 @@ const LoginCard = ({ setAlert }) => {
           </label>
           <input
             type="email"
-            name="email"
+            name="identifier"
             placeholder="Enter your email"
-            value={formData.email}
+            value={formData.identifier}
             onChange={handleChange}
             required
             className="w-full rounded-lg border border-gray-200 px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-transparent transition"

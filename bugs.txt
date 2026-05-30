@@ -1,0 +1,6 @@
+Frontend
+
+- register page needs: first_name, last_name, username, password
+- login page: the identifier( username/email ), password
+- dashboard: diaplay the user details, logout btn functionality.
+
