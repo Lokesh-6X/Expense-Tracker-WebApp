@@ -6,11 +6,13 @@ const app = express();
 // app.use(cors());
 app.use(express.json());
 
-app.use("/api/transactions", require("./routes/transactionRoutes"));
-app.use ("/api/users", require("./routes/authRoutes"));
+app.use("/api/users", require("./routes/authRoutes"));
+app.use("/api/categories", require("./routes/categoryRoutes"));
+app.use("/api/expenses", require("./routes/expenseRoutes"));
+app.use("/api/dashboard", require("./routes/dashboardRoutes"));
 
 // app.get("/", (req, res) => {
-//   res.send("API running...");
+//   res.send("Expense Tracker API Running...");
 // });
 
 module.exports = app;

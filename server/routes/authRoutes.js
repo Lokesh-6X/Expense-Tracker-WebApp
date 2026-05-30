@@ -1,13 +1,18 @@
 const express = require("express");
 const router = express.Router();
-const { registerUser, loginUser, getUser } = require("../controllers/authController");
+
+const {
+    registerUser,
+    loginUser,
+    getCurrentUser
+} = require("../controllers/authController");
+
 const validateToken = require("../middleware/validateTokenHandler");
-const { get } = require("mongoose");
 
-router.route("/register").post(registerUser);
+router.post("/register", registerUser);
 
-router.route("/login").post(loginUser);
+router.post("/login", loginUser);
 
-router.get("/current", validateToken, getUser);
+router.get("/current", validateToken, getCurrentUser);
 
 module.exports = router;

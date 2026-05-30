@@ -3,106 +3,177 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 
-//@desc Register the user
+//@desc Register a user
 //@route POST /api/users/register
-//@access public
+//@access Public
 const registerUser = async (req, res) => {
-
     try {
 
-        const { first_name, last_name, email, password } = req.body;
-        console.log(first_name, last_name, email, password)
-
-        // Updated validation
-        if (!first_name || !last_name || !email || !password) {
-            return res.status(400).json({
-                message: "All inputs are mandatory"
-            });
-        }
-
-        const userAvailable = await User.findOne({ email });
-
-        if (userAvailable) {
-            return res.status(400).json({
-                message: "Email already taken"
-            });
-        }
-
-        const hashedPassword = await bcrypt.hash(password, 10);
-
-        const user = await User.create({
+        const {
             first_name,
             last_name,
+            username,
             email,
-            hashed_password: hashedPassword,
-        });
+            password
+        } = req.body;
 
-        res.status(201).json({
-            _id: user.id,
-            first_name: user.first_name,
-            last_name: user.last_name,
-            email: user.email,
-        });
-
-    } catch (error) {
-        res.status(500).json({
-            message: error.message
-        });
-    }
-};
-
-
-//@desc Login the user
-//@route POST /api/users/login
-//@access public
-const loginUser = async (req, res) => {
-
-    try {
-
-        const { email, password } = req.body;
-
-        if (!email || !password) {
+        // Validation
+        if (
+            !first_name ||
+            !last_name ||
+            !username ||
+            !email ||
+            !password
+        ) {
             return res.status(400).json({
+                success: false,
                 message: "All fields are mandatory"
             });
         }
 
-        const user = await User.findOne({ email });
+        // Check email uniqueness
+        const emailExists = await User.findOne({ email });
 
-        if (!user || !(await bcrypt.compare(password, user.hashed_password))) {
-            return res.status(401).json({
-                message: "Invalid email or password"
+        if (emailExists) {
+            return res.status(400).json({
+                success: false,
+                message: "Email already exists"
             });
         }
 
-        const token = jwt.sign(
-            {
-                user: {
-                    first_name: user.first_name,
-                    last_name: user.last_name,
-                    id: user.id,
-                    email: user.email,
-                },
-            },
-            process.env.JWT_SECRET_KEY,
-            { expiresIn: "15m" }
-        );
+        // Check username uniqueness
+        const usernameExists = await User.findOne({ username });
 
-        res.status(200).json({ token });
+        if (usernameExists) {
+            return res.status(400).json({
+                success: false,
+                message: "Username already exists"
+            });
+        }
+
+        // Hash password
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        // Create user
+        const user = await User.create({
+            first_name,
+            last_name,
+            username,
+            email,
+            hashed_password: hashedPassword
+        });
+
+        res.status(201).json({
+            success: true,
+            message: "User registered successfully",
+            user: {
+                id: user._id,
+                first_name: user.first_name,
+                last_name: user.last_name,
+                username: user.username,
+                email: user.email
+            }
+        });
 
     } catch (error) {
+        console.error(error);
+
         res.status(500).json({
-            message: error.message
+            success: false,
+            message: "Server Error"
         });
     }
 };
 
 
-//@desc Get the current user
-//@route GET /api/users/current
-//@access private
-const getUser = async (req, res) => {
-    res.status(200).json(req.user);
+//@desc Login a user
+//@route POST /api/users/login
+//@access Public
+const loginUser = async (req, res) => {
+    try {
+
+        const { identifier, password } = req.body;
+
+        if (!identifier || !password) {
+            return res.status(400).json({
+                success: false,
+                message: "All fields are mandatory"
+            });
+        }
+
+        // Login using Email OR Username
+        const user = await User.findOne({
+            $or: [
+                { email: identifier },
+                { username: identifier }
+            ]
+        });
+
+        if (!user) {
+            return res.status(401).json({
+                success: false,
+                message: "Invalid credentials"
+            });
+        }
+
+        const isPasswordMatched = await bcrypt.compare(
+            password,
+            user.hashed_password
+        );
+
+        if (!isPasswordMatched) {
+            return res.status(401).json({
+                success: false,
+                message: "Invalid credentials"
+            });
+        }
+
+        const accessToken = jwt.sign(
+            {
+                user: {
+                    id: user._id,
+                    first_name: user.first_name,
+                    last_name: user.last_name,
+                    username: user.username,
+                    email: user.email
+                }
+            },
+            process.env.JWT_SECRET_KEY,
+            {
+                expiresIn: "1d"
+            }
+        );
+
+        res.status(200).json({
+            success: true,
+            message: "Login successful",
+            accessToken
+        });
+
+    } catch (error) {
+        console.error(error);
+
+        res.status(500).json({
+            success: false,
+            message: "Server Error"
+        });
+    }
 };
 
-module.exports = { registerUser, loginUser, getUser };
+
+//@desc Get current logged in user
+//@route GET /api/users/current
+//@access Private
+const getCurrentUser = async (req, res) => {
+    res.status(200).json({
+        success: true,
+        user: req.user
+    });
+};
+
+
+module.exports = {
+    registerUser,
+    loginUser,
+    getCurrentUser
+};
