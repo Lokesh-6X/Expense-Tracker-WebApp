@@ -30,11 +30,13 @@ const LoginCard = ({ setAlert }) => {
     try {
       setLoading(true);
       const data = await loginUser(formData);
+      console.log(data);
       localStorage.setItem("token", data.token);
       console.log("Login Sucessfull");
       navigate("/dashboard");
     } catch (error) {
       console.error("Login failed:", error.response?.data || error.message);
+      console.log(data);
       setAlert(error.response.data.message);
     } finally {
       setLoading(false);
