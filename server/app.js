@@ -1,18 +1,18 @@
-const express = require("express");
-// const cors = require("cors");
+import express from "express";
+
+// Route Imports
+import authRoutes from "./routes/authRoutes.js";
+import categoryRoutes from "./routes/categoryRoutes.js";
+import expenseRoutes from "./routes/expenseRoutes.js";
+import dashboardRoutes from "./routes/dashboardRoutes.js";
 
 const app = express();
 
-// app.use(cors());
 app.use(express.json());
 
-app.use("/api/users", require("./routes/authRoutes"));
-app.use("/api/categories", require("./routes/categoryRoutes"));
-app.use("/api/expenses", require("./routes/expenseRoutes"));
-app.use("/api/dashboard", require("./routes/dashboardRoutes"));
+app.use("/api/users", authRoutes);
+app.use("/api/categories", categoryRoutes);
+app.use("/api/expenses", expenseRoutes);
+app.use("/api/dashboard", dashboardRoutes);
 
-// app.get("/", (req, res) => {
-//   res.send("Expense Tracker API Running...");
-// });
-
-module.exports = app;
+export default app;

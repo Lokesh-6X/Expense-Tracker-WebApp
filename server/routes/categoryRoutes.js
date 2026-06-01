@@ -1,25 +1,26 @@
-const express = require("express");
+import express from "express";
+
+import {
+  createCategory,
+  getCategories,
+  updateCategory,
+  deleteCategory,
+} from "../controllers/categoryController.js";
+
+import validateToken from "../middleware/validateTokenHandler.js";
+
 const router = express.Router();
-
-const {
-    createCategory,
-    getCategories,
-    updateCategory,
-    deleteCategory
-} = require("../controllers/categoryController");
-
-const validateToken = require("../middleware/validateTokenHandler");
 
 router.use(validateToken);
 
 router
-    .route("/")
-    .post(createCategory)
-    .get(getCategories);
+  .route("/")
+  .post(createCategory)
+  .get(getCategories);
 
 router
-    .route("/:id")
-    .put(updateCategory)
-    .delete(deleteCategory);
+  .route("/:id")
+  .put(updateCategory)
+  .delete(deleteCategory);
 
-module.exports = router;
+export default router;

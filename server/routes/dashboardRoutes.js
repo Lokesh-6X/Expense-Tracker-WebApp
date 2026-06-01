@@ -1,23 +1,21 @@
-const express = require("express");
+import express from "express";
+
+import {
+  getDashboardSummary,
+  getMonthlySummary,
+  getCategorySummary,
+  getRecentExpenses,
+} from "../controllers/dashboardController.js";
+
+import validateToken from "../middleware/validateTokenHandler.js";
+
 const router = express.Router();
-
-const {
-    getDashboardSummary,
-    getMonthlySummary,
-    getCategorySummary,
-    getRecentExpenses
-} = require("../controllers/dashboardController");
-
-const validateToken = require("../middleware/validateTokenHandler");
 
 router.use(validateToken);
 
 router.get("/", getDashboardSummary);
-
 router.get("/monthly-summary", getMonthlySummary);
-
 router.get("/category-summary", getCategorySummary);
-
 router.get("/recent-expenses", getRecentExpenses);
 
-module.exports = router;
+export default router;
