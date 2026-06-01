@@ -1,15 +1,15 @@
-const express = require("express");
+import express from "express";
 const router = express.Router();
 
-const {
-    createExpense,
-    getExpenses,
-    getExpense,
-    updateExpense,
-    deleteExpense
-} = require("../controllers/expenseController");
+import {
+  createExpense,
+  getExpenses,
+  getExpense,
+  updateExpense,
+  deleteExpense,
+} from "../controllers/expenseController.js";
 
-const validateToken = require("../middleware/validateTokenHandler");
+import validateToken from "../middleware/validateTokenHandler.js";
 
 router.use(validateToken);
 
@@ -24,4 +24,4 @@ router
     .put(updateExpense)
     .delete(deleteExpense);
 
-module.exports = router;
+export default router;

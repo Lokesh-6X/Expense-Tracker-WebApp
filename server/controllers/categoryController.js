@@ -1,5 +1,4 @@
-const Category = require("../models/categoryModel");
-
+import Category from "../models/categoryModel.js";
 
 //@desc Create Category
 //@route POST /api/categories
@@ -129,7 +128,7 @@ const deleteCategory = async (req, res) => {
 };
 
 
-module.exports = {
+export {
     createCategory,
     getCategories,
     updateCategory,

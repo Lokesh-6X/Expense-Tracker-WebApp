@@ -1,5 +1,5 @@
-const Expense = require("../models/expenseModel");
-const Category = require("../models/categoryModel");
+import Expense from "../models/expenseModel.js";
+import Category from "../models/categoryModel.js";
 
 
 //@desc Create Expense
@@ -210,7 +210,7 @@ const deleteExpense = async (req, res) => {
 };
 
 
-module.exports = {
+export {
     createExpense,
     getExpenses,
     getExpense,
