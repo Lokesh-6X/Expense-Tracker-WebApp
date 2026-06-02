@@ -99,6 +99,22 @@ const RegisterCard = ({ setAlert }) => {
             />
         </div>
 
+        {/* Username */}
+        <div>
+            <label className="text-sm text-gray-600 block mb-1">
+            Username
+            </label>
+            <input
+            type="text"
+            name="username"
+            placeholder="Enter your username"
+            value={formData.username}
+            onChange={handleChange}
+            required
+            className="w-full rounded-lg border border-gray-200 px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-transparent transition"
+            />
+        </div>
+
         {/* Password */}
         <div>
             <label className="text-sm text-gray-600 block mb-1">
