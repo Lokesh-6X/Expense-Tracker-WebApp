@@ -56,9 +56,9 @@ const LoginCard = ({ setAlert }) => {
             Email
           </label>
           <input
-            type="email"
+            type="text"
             name="identifier"
-            placeholder="Enter your email"
+            placeholder="Enter your email or username"
             value={formData.identifier}
             onChange={handleChange}
             required
