@@ -4,6 +4,7 @@ import { createWelcomeEmailTemplate } from "./emailTemplate.js";
 export const sendWelcomeEmail = async (email, name, clientURL) => {
   try {
     console.log("Sending email to:", email);
+    console.log("CLIENT_URL =", clientURL);
 
     const info = await transporter.sendMail({
       from: process.env.EMAIL_USER,
