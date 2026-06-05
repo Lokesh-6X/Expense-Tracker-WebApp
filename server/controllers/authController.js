@@ -54,7 +54,7 @@ const registerUser = async (req, res) => {
       await sendWelcomeEmail(
         user.email,
         user.first_name,
-        process.env.CLIENT_URL || "http://localhost:5173",
+        process.env.CLIENT_URL || "http://localhost:3000",
       );
     } catch (error) {
       console.log("Welcome email failed:", error.message);

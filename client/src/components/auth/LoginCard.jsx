@@ -1,105 +1,109 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { loginUser } from "../../features/auth/authService";
-import LoadingSpinner from "../ui/LoadingSpinner";
-
-
-
 
 const LoginCard = ({ setAlert }) => {
-
-  const [loading, setLoading] = useState(false);
-  
   const navigate = useNavigate();
 
-  const [formData, setFormData] = useState({
-    identifier: "",
-    password: "",
-  });
+  const [identifier, setIdentifier] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleLogin = async () => {
+    if (!identifier || !password) {
+      setError("Please fill all fields");
+      return;
+    }
 
     try {
       setLoading(true);
-      const data = await loginUser(formData);
+      setError("");
+      
+      const data = await loginUser({ identifier, password });
+      
       localStorage.setItem("token", data.token);
-      console.log("Login Sucessfull");
+      console.log("Login Successful");
       navigate("/dashboard");
-    } catch (error) {
-      console.error("Login failed:", error.response?.data || error.message);
-      setAlert(error.response.data.message);
+    } catch (err) {
+      console.error("Login failed:", err.response?.data || err.message);
+      setError("Wrong password, Re-enter the password");
     } finally {
       setLoading(false);
     }
   };
+
   return (
-    <div className="w-full max-w-sm rounded-2xl bg-white/80 backdrop-blur-lg shadow-2xl border border-gray-100 p-8 transition-all duration-300 hover:shadow-indigo-200/50">
+    <div className="bg-white -mt-6 w-[400px] h-[400px] rounded-[40px] shadow-2xl px-10 py-12">
+      <h1 
+        className="text-center text-[50px] text-[#DC2F02] leading-none mb-1 -m-7"
+        style={{ fontFamily: "'Medula One', cursive" }}
+      >
+        Login
+      </h1>
 
-      {/* Title */}
-      <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
-        Welcome Back 👋
-      </h2>
+      <div className="mb-6">
+        <label className="block text-[17px] text-[#333] mb-1.5 mt-5 tracking-wide" style={{ fontFamily: "'Abhaya Libre', serif" }}>Email or Username</label>
+        <input
+          type="text"
+          placeholder="Enter your Email or Username..."
+          value={identifier}
+          onChange={(e) => setIdentifier(e.target.value)}
+          className="w-[330px] h-[40px] bg-[#E9ECEF99] rounded-2xl -m-1 px-5 text-[16px] outline-none placeholder-gray-400 focus:ring-2 focus:ring-[#DC2F02]"
+          style={{ fontFamily: "'Roboto', sans-serif" }}
+        />
+      </div>
 
-      <form onSubmit={handleSubmit} className="space-y-5">
+      <div className="mb-1">
+        <label className="block text-[19px] text-[#333] -mt-1 mb-1.5 tracking-wide" style={{ fontFamily: "'Abhaya Libre', serif" }}>Password</label>
+        <input
+          type="password"
+          placeholder="Enter your Password..."
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          className="w-[330px] h-[40px] bg-[#E9ECEF99] rounded-2xl -m-1 px-5 text-[16px] outline-none placeholder-gray-700 focus:ring-2 focus:ring-[#DC2F02]"
+          style={{ fontFamily: "'Roboto', sans-serif" }}
+        />
+      </div>
 
-        {/* Email */}
-        <div>
-          <label className="text-sm text-gray-600 block mb-1">
-            Email
-          </label>
-          <input
-            type="text"
-            name="identifier"
-            placeholder="Enter your email or username"
-            value={formData.identifier}
-            onChange={handleChange}
-            required
-            className="w-full rounded-lg border border-gray-200 px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-transparent transition"
-          />
-        </div>
-
-        {/* Password */}
-        <div>
-          <label className="text-sm text-gray-600 block mb-1">
-            Password
-          </label>
-          <input
-            type="password"
-            name="password"
-            placeholder="Enter your password"
-            value={formData.password}
-            onChange={handleChange}
-            required
-            className="w-full rounded-lg border border-gray-200 px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-transparent transition"
-          />
-        </div>
-
-        {/* Button */}
+      <div className="flex justify-end w-[330px]">
         <button
-          type="submit"
-          disabled={loading}
-          className="w-full rounded-lg bg-linear-to-r from-indigo-500 to-purple-600 text-white py-2.5 font-semibold flex justify-center items-center gap-2 transition-transform duration-200 hover:scale-[1.02] active:scale-[0.98] shadow-md hover:shadow-lg disabled:opacity-70 disabled:cursor-not-allowed"
+          type="button"
+          onClick={() => navigate("/forgot-password")}
+          className="text-[13px] text-[#DC2F02] hover:underline mt-1"
+          style={{ fontFamily: "'Inter', sans-serif" }}
         >
-          {loading? <LoadingSpinner /> : "Login"}
+          Forgot Password?
         </button>
+      </div>
 
-      </form>
-      <p className="text-sm text-gray-600 text-center mt-4">
-        Don't have an account?{" "}
-        <Link
-          to="/register"
-          className="text-indigo-600 font-medium hover:underline"
+      <div className="h-6 flex justify-end">
+        {error && (
+          <p className="text-gray-500 italic text-[13px] -mr-5 mt-1 " style={{ fontFamily: "'Roboto Flex', sans-serif" }}>
+            *{error}
+          </p>
+        )}
+      </div>
+
+      <div className="flex justify-center mt-10">
+        <button
+          onClick={handleLogin}
+          disabled={loading}
+          className="bg-[#DC2F02] hover:bg-[#c12800] text-white text-[20px] tracking-wider px-10 py-1 -mt-5 rounded-2xl disabled:opacity-800 disabled:cursor-not-allowed"
+          style={{ fontFamily: "'Inconsolata', regular" }}
         >
-          Register
-        </Link>
+          {loading ? "Logging in..." : "Login"}
+        </button>
+      </div>
+
+      <p className="text-center mt-3 text-[14px] text-black tracking-wide" style={{ fontFamily: "'Inter', sans-serif" }}>
+        Don't have an account?{" "}
+        <span
+          className="cursor-pointer hover:underline"
+          onClick={() => navigate("/register")}
+        >
+          Register Here
+        </span>
       </p>
     </div>
   );
