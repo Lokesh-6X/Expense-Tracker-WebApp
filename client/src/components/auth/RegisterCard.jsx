@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { registerUser } from "../../features/auth/authService";
 import LoadingSpinner from "../ui/LoadingSpinner";
 
 const RegisterCard = ({ setAlert }) => {
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
   const [formData, setFormData] = useState({
@@ -42,6 +43,8 @@ const RegisterCard = ({ setAlert }) => {
       });
 
       console.log("Register success:", data);
+      setAlert("Registration successful! ");
+      navigate("/dashboard");
     } catch (error) {
       console.error(error.response?.data?.message || error.message);
       setAlert(error.response?.data?.message);
@@ -69,7 +72,8 @@ const RegisterCard = ({ setAlert }) => {
         {/* First Name + Last Name */}
         <div className="grid md:grid-cols-2 gap-x-6 gap-y-4 mb-4">
           <div>
-            <label className="block text-xl font-Abhaya Libre mb-2">
+            <label className="block text-xl font-Abhaya Libre mb-2"
+            style={{ fontFamily: "'Abhaya Libre', monospace" }}>
                 
               First Name
             </label>
@@ -81,12 +85,13 @@ const RegisterCard = ({ setAlert }) => {
               value={formData.first_name}
               onChange={handleChange}
               required
-              className="w-full bg-gray-100 rounded-xl px-3.5 py-2.5 outline-none focus:ring-2 focus:ring-orange-400"
+              className="w-full bg-gray-100 rounded-xl px-3.5 py-2.5 outline-none focus:ring-2 focus:ring-orange-400 font-Roboto"
             />
           </div>
 
           <div>
-            <label className="block text-xl font-Abhaya Libre mb-2">
+            <label className="block text-xl font-Abhaya Libre mb-2"
+            style={{ fontFamily: "'Abhaya Libre', monospace" }}>
               Last Name
             </label>
 
@@ -97,7 +102,7 @@ const RegisterCard = ({ setAlert }) => {
               value={formData.last_name}
               onChange={handleChange}
               required
-              className="w-full bg-gray-100 rounded-xl px-3.5 py-2.5 outline-none focus:ring-2 focus:ring-orange-400"
+              className="w-full bg-gray-100 rounded-xl px-3.5 py-2.5 outline-none focus:ring-2 focus:ring-orange-400 font-Roboto"
             />
           </div>
         </div>
@@ -105,7 +110,8 @@ const RegisterCard = ({ setAlert }) => {
         {/* Email + Username */}
         <div className="grid md:grid-cols-2 gap-x-6 gap-y-4 mb-4">
           <div>
-            <label className="block text-xl font-Abhaya Libre mb-2">
+            <label className="block text-xl font-Abhaya Libre mb-2"
+            style={{ fontFamily: "'Abhaya Libre', monospace" }}>
               Email
             </label>
 
@@ -116,12 +122,13 @@ const RegisterCard = ({ setAlert }) => {
               value={formData.email}
               onChange={handleChange}
               required
-              className="w-full bg-gray-100 rounded-xl px-3.5 py-2.5 outline-none focus:ring-2 focus:ring-orange-400"
+              className="w-full bg-gray-100 rounded-xl px-3.5 py-2.5 outline-none focus:ring-2 focus:ring-orange-400 font-Roboto"
             />
           </div>
 
           <div>
-            <label className="block text-xl font-Abhaya Libre mb-2">
+            <label className="block text-xl font-Abhaya Libre mb-2"
+            style={{ fontFamily: "'Abhaya Libre', monospace" }}>
               Username
             </label>
 
@@ -132,7 +139,7 @@ const RegisterCard = ({ setAlert }) => {
               value={formData.username}
               onChange={handleChange}
               required
-              className="w-full bg-gray-100 rounded-xl px-3.5 py-2.5 outline-none focus:ring-2 focus:ring-orange-400"
+              className="w-full bg-gray-100 rounded-xl px-3.5 py-2.5 outline-none focus:ring-2 focus:ring-orange-400 font-Roboto"
             />
           </div>
         </div>
@@ -140,7 +147,8 @@ const RegisterCard = ({ setAlert }) => {
         {/* Password + Confirm Password */}
         <div className="grid md:grid-cols-2 gap-6 mb-6">
           <div>
-            <label className="block text-xl font-Abhaya Libre mb-2">
+            <label className="block text-xl font-Abhaya Libre mb-2"
+            style={{ fontFamily: "'Abhaya Libre', monospace" }}>
               Password
             </label>
 
@@ -151,7 +159,7 @@ const RegisterCard = ({ setAlert }) => {
               value={formData.password}
               onChange={handleChange}
               required
-              className="w-full bg-gray-100 rounded-xl px-3.5 py-2.5 outline-none focus:ring-2 focus:ring-orange-400"
+              className="w-full bg-gray-100 rounded-xl px-3.5 py-2.5 outline-none focus:ring-2 focus:ring-orange-400 font-Roboto "
             />
 
             {/* <p className="text-[11px] italic text-gray-500 mt-2 text-right">
@@ -160,7 +168,8 @@ const RegisterCard = ({ setAlert }) => {
           </div>
 
           <div>
-           <label className="block text-xl font-Abhaya Libre mb-1">
+           <label className="block text-xl font-Abhaya Libre mb-1"
+            style={{ fontFamily: "'Abhaya Libre', monospace" }}>
 
               Confirm Password
             </label>
@@ -172,7 +181,7 @@ const RegisterCard = ({ setAlert }) => {
               value={formData.confirmPassword}
               onChange={handleChange}
               required
-              className="w-full bg-gray-100 rounded-xl px-3.5 py-2.5 outline-none focus:ring-2 focus:ring-orange-400"
+              className="w-full bg-gray-100 rounded-xl px-3.5 py-2.5 outline-none focus:ring-2 focus:ring-orange-400 font-Roboto"
             />
 
             {/* <p className="text-[11px] italic text-gray-500 mt-2 text-right">
@@ -186,7 +195,7 @@ const RegisterCard = ({ setAlert }) => {
           <button
             type="submit"
             disabled={loading}
-            className="bg-[#E85D04] text-white px-14 py-2 rounded-full text-2xl font-medium shadow-md hover:scale-105 transition-all duration-200 disabled:opacity-70 disabled:cursor-not-allowed"
+            className="bg-[#E85D04] text-white px-8 py-2 rounded-full text-2xl font-medium shadow-md hover:scale-105 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
             style={{ fontFamily: "'Abhaya Libre', monospace" }}
           >
             {loading ? <LoadingSpinner /> : "Register"}
