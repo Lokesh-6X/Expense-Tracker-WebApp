@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Landing  from "../pages/Landing";
 import Login from "../pages/auth/Login";
 import Register from "../pages/auth/Register";
+import ForgotPassword from "../pages/auth/ForgotPassword";
 import Dashboard from "../pages/dashboard/Dashboard";
 import ProtectedRoute from "./ProtectedRoute";
 import PublicRoute from "./PublicRoute";
@@ -31,6 +32,15 @@ const AppRoutes = () => {
           element={
             <PublicRoute>
               <Register />
+            </PublicRoute>
+          }
+        />
+
+        <Route
+          path="/forgot-password"
+          element={
+            <PublicRoute>
+              <ForgotPassword />
             </PublicRoute>
           }
         />
