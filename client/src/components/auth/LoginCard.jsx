@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { loginUser } from "../../features/auth/authService";
 
-const LoginCard = ({ setAlert }) => {
+const LoginCard = () => {
   const navigate = useNavigate();
 
   const [identifier, setIdentifier] = useState("");
@@ -27,7 +27,7 @@ const LoginCard = ({ setAlert }) => {
       navigate("/dashboard");
     } catch (err) {
       console.error("Login failed:", err.response?.data || err.message);
-      setError("!! Wrong password, Re-enter the password");
+      setError("Wrong password, Re-enter the password");
     } finally {
       setLoading(false);
     }
@@ -39,7 +39,7 @@ const LoginCard = ({ setAlert }) => {
         className="text-center mb-6"
         style={{
           fontFamily: "'Medula One', cursive",
-          color: "#E85D04",
+          color: "#DC2F02",
           fontSize: "50px",
           letterSpacing: "5px",
         }}
@@ -48,7 +48,7 @@ const LoginCard = ({ setAlert }) => {
       </h1>
 
       <div className="mb-6">
-        <label className="block text-xl font-Abhaya Libre mb-2" style={{ fontFamily: "'Abhaya Libre', monospace" }}>
+        <label className="text-[#343A40] block text-xl font-Abhaya Libre mb-2" style={{ fontFamily: "'Abhaya Libre', monospace" }}>
           Email or Username
         </label>
         <input
@@ -61,7 +61,7 @@ const LoginCard = ({ setAlert }) => {
       </div>
 
       <div className="mb-4">
-        <label className="block text-xl font-Abhaya Libre mb-2" style={{ fontFamily: "'Abhaya Libre', monospace" }}>
+        <label className="text-[#1B262C] block text-xl font-Abhaya Libre mb-2" style={{ fontFamily: "'Abhaya Libre', monospace" }}>
           Password
         </label>
         <input
@@ -86,8 +86,8 @@ const LoginCard = ({ setAlert }) => {
 
       <div className="h-6 flex justify-end -mt-3 mb-4">
         {error && (
-          <p className="text-gray-500 text-sm" style={{ fontFamily: "'Roboto Flex', sans-serif" }}>
-            {error}
+          <p className="text-[#6C757D] text-sm" style={{ fontFamily: "'Inter', Regular" }}>
+            *{error}
           </p>
         )}
       </div>
@@ -96,18 +96,18 @@ const LoginCard = ({ setAlert }) => {
         <button
           onClick={handleLogin}
           disabled={loading}
-          className="bg-[#E85D04] text-white px-8 py-2 rounded-full text-2xl font-medium shadow-md hover:scale-105 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="bg-[#DC2F02] text-white px-8 py-2 rounded-full text-2xl font-medium shadow-md hover:scale-105 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
           style={{ fontFamily: "'Abhaya Libre', monospace" }}
         >
           {loading ? "Logging in..." : "Login"}
         </button>
       </div>
 
-      <p className="text-sm text-gray-600 text-center -mt-4">
+      <p className="text-sm text-[#000000] text-center -mt-4">
         Don't have an account?{" "}
         <Link
           to="/register"
-          className="text-[#E85D04] font-medium hover:underline"
+          className="text-[#000000] font-small hover:underline"
         >
           Register
         </Link>
