@@ -4,158 +4,217 @@ import { registerUser } from "../../features/auth/authService";
 import LoadingSpinner from "../ui/LoadingSpinner";
 
 const RegisterCard = ({ setAlert }) => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
-    const [loading, setLoading] = useState(false);
+  const [formData, setFormData] = useState({
+    first_name: "",
+    last_name: "",
+    email: "",
+    username: "",
+    password: "",
+    confirmPassword: "",
+  });
 
-    const [formData, setFormData] = useState({
-        first_name: "",
-        last_name: "",
-        username: "",
-        email: "",
-        password: "",
-    });
-
-    const handleChange = (e) => {
+  const handleChange = (e) => {
     setFormData({
-        ...formData,
-        [e.target.name]: e.target.value,
+      ...formData,
+      [e.target.name]: e.target.value,
     });
-    };
+  };
 
-    const handleSubmit = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    try {
-
-        setLoading(true);
-
-        const data = await registerUser(formData);
-        console.log("Register success:", data);
-        setAlert("Account created successfully!");
-        navigate("/login");
-    } catch (error) {
-        console.error(
-        error.response?.data?.message || error.message
-        );
-        setAlert(error.response.data.message);
-    } finally {
-        setLoading(false);
+    if (formData.password !== formData.confirmPassword) {
+      setAlert("Passwords do not match");
+      return;
     }
-    };
 
-    return (
-    <div className="w-full max-w-sm rounded-2xl bg-white/80 backdrop-blur-lg shadow-2xl border border-gray-100 p-8 transition-all duration-300 hover:shadow-indigo-200/50">
+    try {
+      setLoading(true);
 
-        {/* Title */}
-        <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
-        Create Account ✨
-        </h2>
+      const data = await registerUser({
+        first_name: formData.first_name,
+        last_name: formData.last_name,
+        username: formData.username,
+        email: formData.email,
+        password: formData.password,
+      });
 
-        <form onSubmit={handleSubmit} className="space-y-5">
+      console.log("Register success:", data);
+      setAlert("Registration successful! ");
+      navigate("/dashboard");
+    } catch (error) {
+      console.error(error.response?.data?.message || error.message);
+      setAlert(error.response?.data?.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-        {/* First + Last Name (side by side) */}
-        <div className="grid grid-cols-2 gap-3">
-            <div>
-            <label className="text-sm text-gray-600 block mb-1">
-                First Name
+  return (
+    <div className="bg-white w-full max-w-3xl rounded-[25px] shadow-xl px-6 py-6">
+      {/* Title */}
+      <h1
+        className="text-center mb-6"
+        style={{
+          fontFamily: "'Medula One', cursive",
+          color: "#E85D04",
+          fontSize: "50px",
+          letterSpacing: "5px",
+        }}
+      >
+        Register
+      </h1>
+
+      <form onSubmit={handleSubmit}>
+        {/* First Name + Last Name */}
+        <div className="grid md:grid-cols-2 gap-x-6 gap-y-4 mb-4">
+          <div>
+            <label className="block text-xl font-Abhaya Libre mb-2"
+            style={{ fontFamily: "'Abhaya Libre', monospace" }}>
+                
+              First Name
             </label>
-            <input
-                type="text"
-                name="first_name"
-                placeholder="First name"
-                value={formData.first_name}
-                onChange={handleChange}
-                required
-                className="w-full rounded-lg border border-gray-200 px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-transparent transition"
-            />
-            </div>
 
-            <div>
-            <label className="text-sm text-gray-600 block mb-1">
-                Last Name
-            </label>
             <input
-                type="text"
-                name="last_name"
-                placeholder="Last name"
-                value={formData.last_name}
-                onChange={handleChange}
-                required
-                className="w-full rounded-lg border border-gray-200 px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-transparent transition"
+              type="text"
+              name="first_name"
+              placeholder="Enter your First Name..."
+              value={formData.first_name}
+              onChange={handleChange}
+              required
+              className="w-full bg-gray-100 rounded-xl px-3.5 py-2.5 outline-none focus:ring-2 focus:ring-orange-400 font-Roboto"
             />
-            </div>
+          </div>
+
+          <div>
+            <label className="block text-xl font-Abhaya Libre mb-2"
+            style={{ fontFamily: "'Abhaya Libre', monospace" }}>
+              Last Name
+            </label>
+
+            <input
+              type="text"
+              name="last_name"
+              placeholder="Enter your Last Name..."
+              value={formData.last_name}
+              onChange={handleChange}
+              required
+              className="w-full bg-gray-100 rounded-xl px-3.5 py-2.5 outline-none focus:ring-2 focus:ring-orange-400 font-Roboto"
+            />
+          </div>
         </div>
 
-        {/* Email */}
-        <div>
-            <label className="text-sm text-gray-600 block mb-1">
-            Email
+        {/* Email + Username */}
+        <div className="grid md:grid-cols-2 gap-x-6 gap-y-4 mb-4">
+          <div>
+            <label className="block text-xl font-Abhaya Libre mb-2"
+            style={{ fontFamily: "'Abhaya Libre', monospace" }}>
+              Email
             </label>
+
             <input
-            type="email"
-            name="email"
-            placeholder="Enter your email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-            className="w-full rounded-lg border border-gray-200 px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-transparent transition"
+              type="email"
+              name="email"
+              placeholder="Enter your Email..."
+              value={formData.email}
+              onChange={handleChange}
+              required
+              className="w-full bg-gray-100 rounded-xl px-3.5 py-2.5 outline-none focus:ring-2 focus:ring-orange-400 font-Roboto"
             />
+          </div>
+
+          <div>
+            <label className="block text-xl font-Abhaya Libre mb-2"
+            style={{ fontFamily: "'Abhaya Libre', monospace" }}>
+              Username
+            </label>
+
+            <input
+              type="text"
+              name="username"
+              placeholder="Enter your Username..."
+              value={formData.username}
+              onChange={handleChange}
+              required
+              className="w-full bg-gray-100 rounded-xl px-3.5 py-2.5 outline-none focus:ring-2 focus:ring-orange-400 font-Roboto"
+            />
+          </div>
         </div>
 
-        {/* Username */}
-        <div>
-            <label className="text-sm text-gray-600 block mb-1">
-            Username
+        {/* Password + Confirm Password */}
+        <div className="grid md:grid-cols-2 gap-6 mb-6">
+          <div>
+            <label className="block text-xl font-Abhaya Libre mb-2"
+            style={{ fontFamily: "'Abhaya Libre', monospace" }}>
+              Password
             </label>
+
             <input
-            type="text"
-            name="username"
-            placeholder="Enter your username"
-            value={formData.username}
-            onChange={handleChange}
-            required
-            className="w-full rounded-lg border border-gray-200 px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-transparent transition"
+              type="password"
+              name="password"
+              placeholder="Enter your Password..."
+              value={formData.password}
+              onChange={handleChange}
+              required
+              className="w-full bg-gray-100 rounded-xl px-3.5 py-2.5 outline-none focus:ring-2 focus:ring-orange-400 font-Roboto "
             />
+
+            {/* <p className="text-[11px] italic text-gray-500 mt-2 text-right">
+              *Password must contain a special character
+            </p> */}
+          </div>
+
+          <div>
+           <label className="block text-xl font-Abhaya Libre mb-1"
+            style={{ fontFamily: "'Abhaya Libre', monospace" }}>
+
+              Confirm Password
+            </label>
+
+            <input
+              type="password"
+              name="confirmPassword"
+              placeholder="Confirm your Password..."
+              value={formData.confirmPassword}
+              onChange={handleChange}
+              required
+              className="w-full bg-gray-100 rounded-xl px-3.5 py-2.5 outline-none focus:ring-2 focus:ring-orange-400 font-Roboto"
+            />
+
+            {/* <p className="text-[11px] italic text-gray-500 mt-2 text-right">
+              *Does not match the password
+            </p> */}
+          </div>
         </div>
 
-        {/* Password */}
-        <div>
-            <label className="text-sm text-gray-600 block mb-1">
-            Password
-            </label>
-            <input
-            type="password"
-            name="password"
-            placeholder="Create password"
-            value={formData.password}
-            onChange={handleChange}
-            required
-            className="w-full rounded-lg border border-gray-200 px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-transparent transition"
-            />
-        </div>
-
-        {/* Button */}
-        <button
+        {/* Register Button */}
+        <div className="flex justify-center">
+          <button
             type="submit"
-            disable={loading}
-            className="w-full rounded-lg bg-linear-to-r from-indigo-500 to-purple-600 text-white py-2.5 font-semibold flex justify-center items-center gap-2 transition-transform duration-200 hover:scale-[1.02] active:scale-[0.98] shadow-md hover:shadow-lg disabled:opacity-70 disabled:cursor-not-allowed"
-        >
-            {loading? <LoadingSpinner /> : "Register"}
-        </button>
+            disabled={loading}
+            className="bg-[#E85D04] text-white px-8 py-2 rounded-full text-2xl font-medium shadow-md hover:scale-105 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+            style={{ fontFamily: "'Abhaya Libre', monospace" }}
+          >
+            {loading ? <LoadingSpinner /> : "Register"}
+          </button>
+        </div>
+      </form>
 
-        </form>
+      {/* Login Link  */}
       <p className="text-sm text-gray-600 text-center mt-4">
         Already have an account?{" "}
         <Link
           to="/login"
-          className="text-indigo-600 font-medium hover:underline"
+          className="text-[#E85D04]-600 font-medium hover:underline"
         >
           Login
         </Link>
       </p>
     </div>
-    );
+  );
 };
 
 export default RegisterCard;

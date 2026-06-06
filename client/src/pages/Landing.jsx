@@ -13,7 +13,7 @@ const Landing = () => {
 
             {/* Title */}
             <h1 className="text-4xl font-bold text-gray-800 mb-3">
-            Welcome to Expense Tracker
+            Welcome to Expense Trackerrrrrrr
             </h1>
 
             <p className="text-gray-600 mb-8">
