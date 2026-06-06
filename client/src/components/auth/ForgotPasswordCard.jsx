@@ -32,62 +32,65 @@ const ForgotPasswordCard = () => {
   };
 
   return (
-    <div className="bg-white -mt-7 w-100 h-80 rounded-[40px] shadow-2xl px-10 py-12">
-      <h1 
-        className="text-center text-[50px] text-[#DC2F02] leading-none mb-1 -mt-9"
-        style={{ fontFamily: "Medula One"}}
+    <div className="bg-white w-full max-w-md rounded-[25px] shadow-xl px-8 py-10">
+      <h1
+        className="text-center mb-6"
+        style={{
+          fontFamily: "'Medula One', cursive",
+          color: "#E85D04",
+          fontSize: "50px",
+          letterSpacing: "5px",
+        }}
       >
         Recovery
       </h1>
 
-      <div className="mb-6 mt-12">
-        <label className="block text-[19px] text-[#333] -mt-5 mb-1 tracking-wide" style={{ fontFamily: "'Abhaya Libre', serif" }}>Email Address</label>
+      <div className="mb-6">
+        <label className="block text-xl font-Abhaya Libre mb-2" style={{ fontFamily: "'Abhaya Libre', monospace" }}>
+          Email Address
+        </label>
         <input
           type="email"
           placeholder="Enter your Email..."
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="w-82.5 h-10 bg-[#e2e4e599] rounded-2xl -m-1 px-5 text-[16px] outline-none placeholder-gray-700 focus:ring-2 focus:ring-[#ee3c0f]"
-          style={{ fontFamily: "'Roboto', sans-serif" }}
+          className="w-full bg-gray-100 rounded-xl px-3.5 py-2.5 outline-none focus:ring-2 focus:ring-orange-400 font-Roboto"
         />
       </div>
 
-      <div className="h-6 flex justify-end mt-2">
+      <div className="h-6 flex flex-col items-end mb-6">
         {error && (
-          <p className="text-gray-500 italic text-[13px] -mt-3.5" style={{ fontFamily: "'Roboto Flex', sans-serif" }}>
+          <p className="text-gray-500 italic text-sm" style={{ fontFamily: "'Roboto Flex', sans-serif" }}>
             *{error}
           </p>
         )}
         {message && (
-          <p className="text-gray-500 italic text-[12px] -mr-5 mt-1 " style={{ fontFamily: "'Inter', sans-serif" }}>
+          <p className="text-gray-500 italic text-sm mt-1" style={{ fontFamily: "'Inter', sans-serif" }}>
             {message}
           </p>
         )}
       </div>
 
-      <div className="flex justify-center mt-8 mb-3">
+      <div className="flex justify-center mb-6">
         <button
           onClick={handleReset}
           disabled={loading}
-          className="bg-[#DC2F02] hover:bg-[#c12800] text-white text-[20px] tracking-wider px-10 py-1 rounded-2xl disabled:opacity-70 disabled:cursor-not-allowed"
-          style={{ fontFamily: "'Inconsolata', monospace" }}
+          className="bg-[#E85D04] text-white px-8 py-2 rounded-full text-2xl font-medium shadow-md hover:scale-105 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+          style={{ fontFamily: "'Abhaya Libre', monospace" }}
         >
           {loading ? "Sending..." : "Send Link"}
         </button>
       </div>
 
-      
-        <div className="flex justify-between items-center mt-1 px-27.5">
-        <p className="text-[14px] text-black tracking-wide" style={{ fontFamily: "'Inter', sans-serif" }}>
-          <span
-            className="cursor-pointer hover:underline text-[#DC2F02]"
-            onClick={() => navigate("/login")}
-          >
-            Back to Login
-          </span>
-          
-        </p>
-      </div>
+      <p className="text-sm text-gray-600 text-center">
+        Remember your password?{" "}
+        <span
+          className="cursor-pointer text-[#E85D04] font-medium hover:underline"
+          onClick={() => navigate("/login")}
+        >
+          Back to Login
+        </span>
+      </p>
     </div>
   );
 };
