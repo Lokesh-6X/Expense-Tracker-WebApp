@@ -1,17 +1,19 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { registerUser } from "../../features/auth/authService";
 import LoadingSpinner from "../ui/LoadingSpinner";
 
 const RegisterCard = ({ setAlert }) => {
+    const navigate = useNavigate();
 
     const [loading, setLoading] = useState(false);
 
     const [formData, setFormData] = useState({
-    first_name: "",
-    last_name: "",
-    email: "",
-    password: "",
+        first_name: "",
+        last_name: "",
+        username: "",
+        email: "",
+        password: "",
     });
 
     const handleChange = (e) => {
@@ -30,6 +32,8 @@ const RegisterCard = ({ setAlert }) => {
 
         const data = await registerUser(formData);
         console.log("Register success:", data);
+        setAlert("Account created successfully!");
+        navigate("/login");
     } catch (error) {
         console.error(
         error.response?.data?.message || error.message
@@ -60,7 +64,7 @@ const RegisterCard = ({ setAlert }) => {
                 type="text"
                 name="first_name"
                 placeholder="First name"
-                value={formData.firstName}
+                value={formData.first_name}
                 onChange={handleChange}
                 required
                 className="w-full rounded-lg border border-gray-200 px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-transparent transition"
@@ -75,7 +79,7 @@ const RegisterCard = ({ setAlert }) => {
                 type="text"
                 name="last_name"
                 placeholder="Last name"
-                value={formData.lastName}
+                value={formData.last_name}
                 onChange={handleChange}
                 required
                 className="w-full rounded-lg border border-gray-200 px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-transparent transition"

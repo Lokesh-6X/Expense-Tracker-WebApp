@@ -22,7 +22,7 @@ const LoginCard = ({ setAlert }) => {
       
       const data = await loginUser({ identifier, password });
       
-      localStorage.setItem("token", data.token);
+      localStorage.setItem("token", data.accessToken);
       console.log("Login Successful");
       navigate("/dashboard");
     } catch (err) {
@@ -34,7 +34,7 @@ const LoginCard = ({ setAlert }) => {
   };
 
   return (
-    <div className="bg-white -mt-6 w-[400px] h-[400px] rounded-[40px] shadow-2xl px-10 py-12">
+    <div className="bg-white -mt-6 w-100 h-100 rounded-[40px] shadow-2xl px-10 py-12">
       <h1 
         className="text-center text-[50px] text-[#DC2F02] leading-none mb-1 -m-7"
         style={{ fontFamily: "'Medula One', cursive" }}
@@ -49,7 +49,7 @@ const LoginCard = ({ setAlert }) => {
           placeholder="Enter your Email or Username..."
           value={identifier}
           onChange={(e) => setIdentifier(e.target.value)}
-          className="w-[330px] h-[40px] bg-[#E9ECEF99] rounded-2xl -m-1 px-5 text-[16px] outline-none placeholder-gray-400 focus:ring-2 focus:ring-[#DC2F02]"
+          className="w-82.5 h-10 bg-[#E9ECEF99] rounded-2xl -m-1 px-5 text-[16px] outline-none placeholder-gray-400 focus:ring-2 focus:ring-[#DC2F02]"
           style={{ fontFamily: "'Roboto', sans-serif" }}
         />
       </div>
@@ -61,12 +61,12 @@ const LoginCard = ({ setAlert }) => {
           placeholder="Enter your Password..."
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="w-[330px] h-[40px] bg-[#E9ECEF99] rounded-2xl -m-1 px-5 text-[16px] outline-none placeholder-gray-700 focus:ring-2 focus:ring-[#DC2F02]"
+          className="w-82.5 h-10 bg-[#E9ECEF99] rounded-2xl -m-1 px-5 text-[16px] outline-none placeholder-gray-700 focus:ring-2 focus:ring-[#DC2F02]"
           style={{ fontFamily: "'Roboto', sans-serif" }}
         />
       </div>
 
-      <div className="flex justify-end w-[330px]">
+      <div className="flex justify-end w-82.5">
         <button
           type="button"
           onClick={() => navigate("/forgot-password")}
