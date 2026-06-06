@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { getCurrentUser } from "../../features/auth/authService";
 
 const Dashboard = () => {
 
@@ -14,6 +15,22 @@ const Dashboard = () => {
     category: "",
     amount: ""
   });
+
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const data = await getCurrentUser();
+        if (data && data.user) {
+          setUser(data.user);
+        }
+      } catch (error) {
+        console.error("Failed to fetch user:", error);
+      }
+    };
+    fetchUser();
+  }, []);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -59,7 +76,7 @@ const Dashboard = () => {
       <div className="flex justify-between items-center mb-8">
 
         <h1 className="text-3xl font-bold text-white">
-          Expense Tracker
+          {user ? `Welcome, ${user.first_name}!` : "Expense Tracker"}
         </h1>
 
         <button

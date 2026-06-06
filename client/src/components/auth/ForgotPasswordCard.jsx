@@ -24,7 +24,7 @@ const ForgotPasswordCard = () => {
       await new Promise((resolve) => setTimeout(resolve, 1000));
       
       setMessage("Password reset link sent to your email!");
-    } catch (err) {
+    } catch {
       setError("Failed to send reset link");
     } finally {
       setLoading(false);
@@ -32,12 +32,13 @@ const ForgotPasswordCard = () => {
   };
 
   return (
-    <div className="bg-white -mt-7 w-[400px] h-[320px] rounded-[40px] shadow-2xl px-10 py-12">
+    <div className="bg-white -mt-7 w-100 h-80 rounded-[40px] shadow-2xl px-10 py-12">
       <h1 
         className="text-center text-[50px] text-[#DC2F02] leading-none mb-1 -mt-9"
         style={{ fontFamily: "Medula One"}}
       >
         Recovery
+      </h1>
 
       <div className="mb-6 mt-12">
         <label className="block text-[19px] text-[#333] -mt-5 mb-1 tracking-wide" style={{ fontFamily: "'Abhaya Libre', serif" }}>Email Address</label>
@@ -46,7 +47,7 @@ const ForgotPasswordCard = () => {
           placeholder="Enter your Email..."
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="w-[330px] h-[40px] bg-[#e2e4e599] rounded-2xl -m-1 px-5 text-[16px] outline-none placeholder-gray-700 focus:ring-2 focus:ring-[#ee3c0f]"
+          className="w-82.5 h-10 bg-[#e2e4e599] rounded-2xl -m-1 px-5 text-[16px] outline-none placeholder-gray-700 focus:ring-2 focus:ring-[#ee3c0f]"
           style={{ fontFamily: "'Roboto', sans-serif" }}
         />
       </div>
